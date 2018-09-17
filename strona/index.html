@@ -1,0 +1,36 @@
+<!doctype html>
+<hmtl>
+<head>
+	<meta charset="utf-8"/>
+	<title>Narzedzia programistyczne - Projekt</title>
+	<link rel="Sylesheet" href="style.css"/>
+		<script src="https://cdn.socket.io/socket.io-1.7.3.js"></script>
+		<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+</head>
+<body>
+<form>
+	Podaj kwote poczatkowa<br/>
+	<input type="text" id="kwota"/>
+	Podaj oproocentowanie roczne.<br />
+	<input type="text" id="rrso"/>
+	<input type="submit" value="Oblicz"/>
+
+	<input type="text" id="wynik" />
+</form>
+
+
+
+<script>
+			$(function () {
+				var socket = io.connect('http://localhost:8181/');
+				$('form').submit(function(){
+					socket.emit('dane', {kp: $('#kwota').val(), procent: $('#rrso').val()});
+					return false;
+				});
+				socket.on('wynik', function(wynik){
+					$('#wynik').val(wynik);
+				});
+			});
+		</script>
+</body>
+</html>
